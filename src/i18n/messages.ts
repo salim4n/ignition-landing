@@ -9,7 +9,7 @@ export const messages = {
 		hero: {
 			title: "Ignite Your AI Potential",
 			subtitle:
-				"Transform your business with cutting-edge RAG systems, intelligent chatbots, custom LLM solutions, and advanced multi-agent systems that drive real results.",
+				"Transform your business with smart technologies using tailored chatbots, advanced systems and solutions that deliver measurable results.",
 			getStarted: "Get Started",
 			learnMore: "Learn More",
 		},
@@ -161,7 +161,7 @@ export const messages = {
 		hero: {
 			title: "Libérez votre Potentiel IA",
 			subtitle:
-				"Transformez votre entreprise avec des systèmes RAG de pointe, des chatbots intelligents, des solutions LLM personnalisées et des systèmes multi-agents qui génèrent des résultats concrets.",
+				"Transformez votre entreprise grâce à des technologies intelligentes avec des chatbots sur mesure, des systèmes avancés et des solutions qui apportent des résultats concrets.",
 			getStarted: "Commencer",
 			learnMore: "En savoir plus",
 		},
