@@ -35,7 +35,7 @@ export const messages = {
 			chatbots: {
 				title: "AI Chatbots",
 				description:
-					"Intelligent conversational agents that understand context and provide meaningful interactions.",
+					"Intelligent conversational agents that understand context and provide meaningful interactions",
 				details: [
 					"Natural language understanding and processing",
 					"Context-aware conversations",
@@ -52,7 +52,7 @@ export const messages = {
 			llm: {
 				title: "LLM Solutions",
 				description:
-					"Tailored Large Language Model implementations that solve your specific business challenges.",
+					"Tailored Large Language Model implementations that solve your specific business challenges",
 				details: [
 					"Custom model fine-tuning",
 					"Domain-specific training",
@@ -69,7 +69,7 @@ export const messages = {
 			agents: {
 				title: "Multi-Agent Systems",
 				description:
-					"Advanced AI agents that collaborate autonomously to solve complex tasks and streamline business processes.",
+					"Advanced AI agents that collaborate autonomously to solve complex tasks and streamline business processes",
 				details: [
 					"Inter-agent communication protocols",
 					"Task decomposition and delegation",
@@ -103,7 +103,7 @@ export const messages = {
 		cta: {
 			title: "Ready to Transform Your Business?",
 			subtitle:
-				"Let's discuss how we can help you leverage the power of artificial intelligence.",
+				"Let's discuss how we can help you leverage the power of artificial intelligence",
 			button: "Schedule a Consultation",
 		},
 		contact: {
@@ -120,10 +120,10 @@ export const messages = {
 			message: "Message",
 			messagePlaceholder: "Tell us about your project...",
 			submit: "Send Message",
-			success: "Thank you! We'll get back to you soon.",
+			success: "Thank you! We'll get back to you soon",
 		},
 		footer: {
-			tagline: "Empowering businesses with intelligent AI solutions.",
+			tagline: "Empowering businesses with intelligent AI solutions",
 			services: "Services",
 			company: "Company",
 			connect: "Connect",
@@ -161,7 +161,7 @@ export const messages = {
 		hero: {
 			title: "Libérez votre Potentiel IA",
 			subtitle:
-				"Transformez votre entreprise grâce à des technologies intelligentes avec des chatbots sur mesure, des systèmes avancés et des solutions qui apportent des résultats concrets.",
+				"Transformez votre entreprise grâce à des technologies intelligentes avec des chatbots sur mesure, des systèmes avancés et des solutions qui apportent des résultats concrets",
 			getStarted: "Commencer",
 			learnMore: "En savoir plus",
 		},
@@ -170,7 +170,7 @@ export const messages = {
 			rag: {
 				title: "Systèmes RAG",
 				description:
-					"Systèmes de génération augmentée par récupération personnalisés qui enrichissent les connaissances de votre IA avec vos données propriétaires.",
+					"Systèmes de génération augmentée par récupération personnalisés qui enrichissent les connaissances de votre IA avec vos données propriétaires",
 				details: [
 					"Intégration transparente avec les bases de connaissances existantes",
 					"Récupération et traitement d'informations en temps réel",
@@ -187,7 +187,7 @@ export const messages = {
 			chatbots: {
 				title: "Chatbots IA",
 				description:
-					"Agents conversationnels intelligents qui comprennent le contexte et fournissent des interactions significatives.",
+					"Agents conversationnels intelligents qui comprennent le contexte et fournissent des interactions significatives",
 				details: [
 					"Compréhension et traitement du langage naturel",
 					"Conversations contextuelles",
@@ -204,7 +204,7 @@ export const messages = {
 			llm: {
 				title: "Solutions LLM",
 				description:
-					"Implémentations de modèles de langage adaptées qui résolvent vos défis commerciaux spécifiques.",
+					"Implémentations de modèles de langage adaptées qui résolvent vos défis commerciaux spécifiques",
 				details: [
 					"Ajustement personnalisé des modèles",
 					"Formation spécifique au domaine",
@@ -221,7 +221,7 @@ export const messages = {
 			agents: {
 				title: "Systèmes Multi-Agents",
 				description:
-					"Agents IA avancés qui collaborent de manière autonome pour résoudre des tâches complexes et optimiser les processus métier.",
+					"Agents IA avancés qui collaborent de manière autonome pour résoudre des tâches complexes et optimiser les processus métier",
 				details: [
 					"Protocoles de communication inter-agents",
 					"Décomposition et délégation des tâches",
@@ -255,7 +255,7 @@ export const messages = {
 		cta: {
 			title: "Prêt à Transformer Votre Entreprise ?",
 			subtitle:
-				"Découvrez comment nous pouvons vous aider à exploiter la puissance de l'intelligence artificielle.",
+				"Découvrez comment nous pouvons vous aider à exploiter la puissance de l'intelligence artificielle",
 			button: "Planifier une Consultation",
 		},
 		contact: {
@@ -272,11 +272,11 @@ export const messages = {
 			message: "Message",
 			messagePlaceholder: "Parlez-nous de votre projet...",
 			submit: "Envoyer le message",
-			success: "Merci ! Nous vous recontacterons bientôt.",
+			success: "Merci ! Nous vous recontacterons bientôt",
 		},
 		footer: {
 			tagline:
-				"Autonomiser les entreprises avec des solutions IA intelligentes.",
+				"Autonomiser les entreprises avec des solutions IA intelligentes",
 			services: "Services",
 			company: "Entreprise",
 			connect: "Connexion",
@@ -290,11 +290,11 @@ export const messages = {
 			approachTitle: "Notre Approche",
 			getInTouch: "Contactez-nous",
 			description: `
-IgnitionAI est à la pointe de l'innovation en intelligence artificielle, spécialisée dans la création de solutions intelligentes qui transforment le fonctionnement des entreprises. Notre expertise couvre les systèmes RAG, les chatbots, les implémentations de LLM et les systèmes multi-agents..`,
-			mission: `Nous nous engageons à rendre la technologie avancée de l'IA accessible et pratique pour les entreprises de toutes tailles. Notre mission est de combler le fossé entre la recherche de pointe en IA et les applications concrètes, en fournissant des solutions qui génèrent des résultats tangibles.`,
-			expertise: `Avec une équipe de chercheurs et d'ingénieurs en IA expérimentés, nous sommes spécialisés dans le développement de solutions d'IA sur mesure répondant à des défis spécifiques des entreprises. Notre maîtrise approfondie des modèles linguistiques, des systèmes de recherche et des architectures multi-agents nous permet de créer des applications d'IA sophistiquées et conviviales.`,
+IgnitionAI est à la pointe de l'innovation en intelligence artificielle, spécialisée dans la création de solutions intelligentes qui transforment le fonctionnement des entreprises. Notre expertise couvre les systèmes RAG, les chatbots, les implémentations de LLM et les systèmes multi-agents`,
+			mission: `Nous nous engageons à rendre la technologie avancée de l'IA accessible et pratique pour les entreprises de toutes tailles. Notre mission est de combler le fossé entre la recherche de pointe en IA et les applications concrètes, en fournissant des solutions qui génèrent des résultats tangibles`,
+			expertise: `Avec une équipe de chercheurs et d'ingénieurs en IA expérimentés, nous sommes spécialisés dans le développement de solutions d'IA sur mesure répondant à des défis spécifiques des entreprises. Notre maîtrise approfondie des modèles linguistiques, des systèmes de recherche et des architectures multi-agents nous permet de créer des applications d'IA sophistiquées et conviviales`,
 			approach: `
-Nous croyons en une approche collaborative, travaillant en étroite collaboration avec nos clients pour comprendre leurs besoins et défis uniques. Nos solutions sont conçues en tenant compte de l'évolutivité, de la sécurité et des performances, garantissant une valeur durable pour nos clients.`,
+Nous croyons en une approche collaborative, travaillant en étroite collaboration avec nos clients pour comprendre leurs besoins et défis uniques. Nos solutions sont conçues en tenant compte de l'évolutivité, de la sécurité et des performances, garantissant une valeur durable pour nos clients`,
 		},
 	},
 };
