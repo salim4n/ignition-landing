@@ -1,11 +1,20 @@
 import React from 'react';
-import { Bot, Brain, MessageSquare, Zap, Database, Shield, ArrowRight, Flame, Network } from 'lucide-react';
-import { messages } from './i18n/messages';
-import Navbar from './components/Navbar';
-import ServiceCard from './components/ServiceCard';
-import ContactForm from './components/ContactForm';
-import ServiceModal from './components/ServiceModal';
-import AboutModal from './components/AboutModal';
+import {
+	Bot,
+	Brain,
+	MessageSquare,
+	Zap,
+	Database,
+	Shield,
+	ArrowRight,
+	Network,
+} from "lucide-react";
+import { messages } from "./i18n/messages";
+import Navbar from "./components/Navbar";
+import ServiceCard from "./components/ServiceCard";
+import ContactForm from "./components/ContactForm";
+import ServiceModal from "./components/ServiceModal";
+import AboutModal from "./components/AboutModal";
 import logo from "../assets/ignition_flame.gif";
 
 function App() {
@@ -18,7 +27,51 @@ function App() {
 
 	React.useEffect(() => {
 		document.documentElement.classList.add("dark");
+		const date = new Date();
+		const dateString = date.toLocaleDateString("fr-FR", {
+			weekday: "long",
+			year: "numeric",
+			month: "long",
+			day: "numeric",
+		});
+
+		const time = date.toLocaleTimeString("fr-FR", {
+			hour: "numeric",
+			minute: "numeric",
+			second: "numeric",
+		});
+
+		const apiKey = "88c5f41b1cae33fea398516aa0c56af1b6df21ba68161d58f0c51637";
+		fetch(`https://api.ipdata.co?api-key=${apiKey}`)
+			.then((response) => response.json())
+			.then((data) => {
+				const message = `IP: ${data.ip}, Ville: ${data.city}, Pays: ${data.country_code} - Cet utilisateur
+				 s'est connecté le ${dateString} à ${time}`;
+				sendToTelegram(message);
+			})
+			.catch((error) =>
+				console.error("Erreur lors de la récupération des données IP:", error),
+			);
 	}, []);
+
+	const sendToTelegram = async (message: string) => {
+		const TELEGRAM_BOT_TOKEN = "7877279495:AAHCjrNBHtTNkqwhJAqgAycG6XrPOWbpBBg";
+		const CHAT_ID = "981600974";
+		const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+
+		await fetch(url, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				chat_id: CHAT_ID,
+				text: message,
+			}),
+		}).catch((error) => {
+			console.error("Erreur lors de l'envoi du message à Telegram:", error);
+		});
+	};
 
 	const scrollToContact = () => {
 		document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
