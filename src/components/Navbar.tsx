@@ -1,7 +1,4 @@
-import React from 'react';
-import { Flame } from 'lucide-react';
-import ThemeToggle from './ThemeToggle';
-import LanguageToggle from './LanguageToggle';
+import LanguageToggle from "./LanguageToggle";
 import logo from "../../assets/ignition_flame.gif";
 
 interface NavbarProps {

@@ -18,7 +18,7 @@ import AboutModal from "./components/AboutModal";
 import logo from "../assets/ignition_flame.gif";
 
 function App() {
-	const [locale, setLocale] = React.useState("en");
+	const [locale, setLocale] = React.useState("fr");
 	const [selectedService, setSelectedService] = React.useState<string | null>(
 		null,
 	);
