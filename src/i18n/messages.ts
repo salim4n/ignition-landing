@@ -6,6 +6,14 @@ export const messages = {
 			contact: "Contact",
 			getStarted: "Get Started",
 		},
+		vectorDb: {
+			title: "Vector Database Demo",
+			demo: "Try Vector DB",
+			howItWorks: "This demo shows how vector databases work using TensorFlow.js and the Universal Sentence Encoder",
+			desc : "Enter a sentence in the input field below and add it to the vector database. Then, find similar sentences using the 'Find Similar' button",
+			addText: "Add to Database",
+			searchSimilar: "Find Similar",
+		},
 		hero: {
 			title: "Ignite Your AI Potential",
 			subtitle:
@@ -157,6 +165,15 @@ export const messages = {
 			features: "Fonctionnalités",
 			contact: "Contact",
 			getStarted: "Commencer",
+		},
+		vectorDb: {
+			title: "Demo de base de données vectorielles",
+			demo: "Essayer Vector DB",
+			howItWorks: "Cette demo illustre comment les bases de données vectorielles fonctionnent en utilisant TensorFlow.js et l'encodeur de sentence universel",
+			desc : "Entrez une phrase dans le champ de saisie ci-dessous et ajoutez-la à la base de données vectorielles. Ensuite, trouvez des phrases similaires utilisant le bouton 'Trouver Similaires'",
+			addText: "Ajouter à la base de données",
+			searchSimilar: "Trouver Similaires",
+
 		},
 		hero: {
 			title: "Libérez votre Potentiel IA",

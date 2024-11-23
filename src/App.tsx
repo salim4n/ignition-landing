@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
 	Bot,
 	Brain,
@@ -16,13 +16,30 @@ import ContactForm from "./components/ContactForm";
 import ServiceModal from "./components/ServiceModal";
 import AboutModal from "./components/AboutModal";
 import logo from "../assets/ignition_flame.gif";
-
+import VectorDbModal from "./components/VectorDbModal";
+const apiKey = "88c5f41b1cae33fea398516aa0c56af1b6df21ba68161d58f0c51637";
+const TELEGRAM_BOT_TOKEN = "7877279495:AAHCjrNBHtTNkqwhJAqgAycG6XrPOWbpBBg";
+const CHAT_ID = "981600974";
+/**
+ * The main App component.
+ *
+ * This component renders the main application layout, including the
+ * navigation bar, hero section, services section, features section, and
+ * contact section.
+ *
+ * It also handles the logic for sending a message to Telegram when the
+ * user visits the site, and for rendering the service modal when the user
+ * clicks on a service card.
+ *
+ * @returns {JSX.Element} The main App component.
+ */
 function App() {
 	const [locale, setLocale] = React.useState("fr");
 	const [selectedService, setSelectedService] = React.useState<string | null>(
 		null,
 	);
 	const [isAboutOpen, setIsAboutOpen] = React.useState(false);
+	const [showVectorDbModal, setShowVectorDbModal] = React.useState(false);
 	const t = messages[locale as keyof typeof messages];
 
 	React.useEffect(() => {
@@ -41,7 +58,7 @@ function App() {
 			second: "numeric",
 		});
 
-		const apiKey = "88c5f41b1cae33fea398516aa0c56af1b6df21ba68161d58f0c51637";
+
 		fetch(`https://api.ipdata.co?api-key=${apiKey}`)
 			.then((response) => response.json())
 			.then((data) => {
@@ -55,8 +72,7 @@ function App() {
 	}, []);
 
 	const sendToTelegram = async (message: string) => {
-		const TELEGRAM_BOT_TOKEN = "7877279495:AAHCjrNBHtTNkqwhJAqgAycG6XrPOWbpBBg";
-		const CHAT_ID = "981600974";
+
 		const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
 
 		await fetch(url, {
@@ -102,10 +118,19 @@ function App() {
 								className="border-2 border-blue-500 text-blue-500 dark:text-blue-400 px-8 py-3 rounded-full hover:bg-blue-50 dark:hover:bg-blue-900/50 transition-colors">
 								{t.hero.learnMore}
 							</a>
+							<button
+							  onClick={() => setShowVectorDbModal(true)}
+							  className="bg-indigo-500 text-white px-8 py-3 rounded-full hover:bg-indigo-600 transition-colors flex items-center gap-2"
+							>
+							  {t.vectorDb.demo} <Database className="h-5 w-5" />
+							</button>
 						</div>
 					</div>
 				</div>
 			</section>
+
+
+
 
 			{/* Services Section */}
 			<section id="services" className="py-20 px-4">
@@ -285,6 +310,7 @@ function App() {
 				onClose={() => setIsAboutOpen(false)}
 				t={t}
 			/>
+			<VectorDbModal isOpen={showVectorDbModal} onClose={() => setShowVectorDbModal(false)} t={t} />
 		</div>
 	);
 }
