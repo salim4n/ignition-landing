@@ -20,6 +20,7 @@ import VectorDbModal from "./components/VectorDbModal";
 const apiKey = "88c5f41b1cae33fea398516aa0c56af1b6df21ba68161d58f0c51637";
 const TELEGRAM_BOT_TOKEN = "7877279495:AAHCjrNBHtTNkqwhJAqgAycG6XrPOWbpBBg";
 const CHAT_ID = "981600974";
+
 /**
  * The main App component.
  *
@@ -45,25 +46,28 @@ function App() {
 	React.useEffect(() => {
 		document.documentElement.classList.add("dark");
 		const date = new Date();
-		const dateString = date.toLocaleDateString("fr-FR", {
-			weekday: "long",
-			year: "numeric",
-			month: "long",
-			day: "numeric",
-		});
-
-		const time = date.toLocaleTimeString("fr-FR", {
-			hour: "numeric",
-			minute: "numeric",
-			second: "numeric",
-		});
-
-
-		fetch(`https://api.ipdata.co?api-key=${apiKey}`)
+		fetch("https://ipapi.co/json/")
 			.then((response) => response.json())
 			.then((data) => {
-				const message = `IP: ${data.ip}, Ville: ${data.city}, Pays: ${data.country_code} - Cet utilisateur
-				 s'est connecté le ${dateString} à ${time}`;
+				const message = [
+					`🌐 IP: ${data.ip}`,
+					`🏙️ City: ${data.city}`,
+					`🗺️ Country: ${data.country_name}`,
+					`🌍 Region: ${data.region}`,
+					`🌐 Timezone: ${data.timezone}`,
+					`📍 Latitude: ${data.latitude}`,
+					`📍 Longitude: ${data.longitude}`,
+					`🌍 Continent: ${data.continent_code}`,
+					`🔌 ISP: ${data.org}`,
+					`💻 User Agent: ${navigator.userAgent}`,
+					`🖥️ Platform: ${navigator.platform}`,
+					`🌐 Language: ${navigator.language}`,
+					`📱 Screen: ${window.screen.width}x${window.screen.height}`,
+					`🎨 Color Depth: ${window.screen.colorDepth}-bit`,
+					`⚡ Connection: ${(navigator as any).connection?.effectiveType || 'Unknown'}`,
+					`\n⏰ Timestamp: ${date.toLocaleString()}`,
+				].join('\n');
+
 				sendToTelegram(message);
 			})
 			.catch((error) =>
@@ -119,18 +123,15 @@ function App() {
 								{t.hero.learnMore}
 							</a>
 							<button
-							  onClick={() => setShowVectorDbModal(true)}
-							  className="bg-indigo-500 text-white px-8 py-3 rounded-full hover:bg-indigo-600 transition-colors flex items-center gap-2"
+								onClick={() => setShowVectorDbModal(true)}
+								className="bg-indigo-500 text-white px-8 py-3 rounded-full hover:bg-indigo-600 transition-colors flex items-center gap-2"
 							>
-							  {t.vectorDb.demo} <Database className="h-5 w-5" />
+								{t.vectorDb.demo} <Database className="h-5 w-5" />
 							</button>
 						</div>
 					</div>
 				</div>
 			</section>
-
-
-
 
 			{/* Services Section */}
 			<section id="services" className="py-20 px-4">
