@@ -2,19 +2,25 @@ import { SetStateAction, useEffect, useRef, useState } from 'react';
 import * as use from '@tensorflow-models/universal-sentence-encoder';
 import * as tf from '@tensorflow/tfjs';
 
-
 interface VectorDbDemoProps {
-  t:any
+  t: any
 }
 
-const VectorDbDemo = ({t} : VectorDbDemoProps) => {
+interface Point {
+  x: number;
+  y: number;
+  text: string;
+}
+
+const VectorDbDemo = ({ t }: VectorDbDemoProps) => {
   const [model, setModel] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [inputText, setInputText] = useState('');
   const [results, setResults] = useState('');
+  const [points, setPoints] = useState<Point[]>([]);
   const vectorDatabase = useRef<number[][]>([]);
   const textDatabase = useRef<string[]>([]);
-  
+  const vizRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const initModel = async () => {
@@ -24,6 +30,7 @@ const VectorDbDemo = ({t} : VectorDbDemoProps) => {
         console.log('tf backend:', tf.getBackend());
         const loadedModel = await use.load();
         setModel(loadedModel);
+        console.log('Model loaded');
         setLoading(false);
       } catch (error) {
         console.error('Error loading model:', error);
@@ -44,7 +51,9 @@ const VectorDbDemo = ({t} : VectorDbDemoProps) => {
   const textToVector = async (text: string) => {
     if (!model) return null;
     const embeddings = await model.embed([text]);
-    return embeddings.arraySync()[0];
+    const vector = await embeddings.array();
+    embeddings.dispose();
+    return vector[0];
   };
 
   const cosineSimilarity = (vecA: number[], vecB: number[]) => {
@@ -54,21 +63,69 @@ const VectorDbDemo = ({t} : VectorDbDemoProps) => {
     return dotProduct / (normA * normB);
   };
 
+  const updateVisualization = (vectors: number[][]) => {
+    if (!vectors || vectors.length === 0 || !vectors[0] || !vizRef.current) {
+      console.log('No valid vectors to visualize');
+      return;
+    }
+
+    try {
+      const mean = vectors.reduce((acc, vec) => 
+        acc.map((v, i) => v + vec[i]), new Array(vectors[0].length).fill(0))
+        .map(v => v / vectors.length);
+
+      const centered = vectors.map(vec => 
+        vec.map((v, i) => v - mean[i]));
+
+      const x: number[] = [];
+      const y: number[] = [];
+      
+      for (let i = 0; i < vectors.length; i++) {
+        const vec = centered[i];
+        const halfLength = Math.floor(vec.length / 2);
+        const xSum = vec.slice(0, halfLength).reduce((a, b) => a + b, 0);
+        const ySum = vec.slice(halfLength).reduce((a, b) => a + b, 0);
+        x.push(xSum / halfLength);
+        y.push(ySum / halfLength);
+      }
+
+      const maxX = Math.max(...x.map(Math.abs)) || 1;
+      const maxY = Math.max(...y.map(Math.abs)) || 1;
+      const scale = Math.min(vizRef.current!.clientWidth, vizRef.current!.clientHeight) / 2 / Math.max(maxX, maxY);
+
+      const newPoints = vectors.map((_, i) => ({
+        x: (vizRef.current!.clientWidth/2 + x[i] * scale),
+        y: (vizRef.current!.clientHeight/2 + y[i] * scale),
+        text: textDatabase.current[i] || 'Search point'
+      }));
+
+      setPoints(newPoints);
+    } catch (error) {
+      console.error('Error in visualization:', error);
+    }
+  };
+
   const addText = async () => {
     if (!inputText.trim()) return;
 
     setLoading(true);
     try {
       const vector = await textToVector(inputText);
-      if (vector) {
+      if (vector && vector.length > 0) {
+        console.log('Vector generated:', vector.length);
         vectorDatabase.current.push(vector);
         textDatabase.current.push(inputText);
-        updateVisualization();
         setInputText('');
+        console.log('Database size:', vectorDatabase.current.length);
+        updateVisualization(vectorDatabase.current);
         setResults(`Added: "${inputText}"`);
+      } else {
+        console.log('Invalid vector generated');
+        setResults('Error: Could not generate vector for text');
       }
     } catch (error) {
-      console.error('Error processing text:', error);
+      console.error('Error adding text:', error);
+      setResults('Error adding text. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -80,45 +137,31 @@ const VectorDbDemo = ({t} : VectorDbDemoProps) => {
     setLoading(true);
     try {
       const searchVector = await textToVector(inputText);
-      if (searchVector) {
-        const similarities = vectorDatabase.current.map((vector, index) => ({
-          text: textDatabase.current[index],
-          similarity: cosineSimilarity(searchVector, vector)
-        }));
+      if (!searchVector) return;
 
-        similarities.sort((a, b) => b.similarity - a.similarity);
-        
-        const resultsHtml = similarities
-          .map(item => `"${item.text}" (similarity: ${item.similarity.toFixed(3)})`)
-          .join('\n');
-        
-        setResults(`Most similar to "${inputText}":\n${resultsHtml}`);
-      }
+      const similarities = vectorDatabase.current.map((vector, index) => ({
+        text: textDatabase.current[index],
+        similarity: cosineSimilarity(searchVector, vector)
+      }));
+
+      similarities.sort((a, b) => b.similarity - a.similarity);
+
+      setResults(similarities.map(s => 
+        `${s.text} (similarity: ${(s.similarity * 100).toFixed(2)}%)`
+      ).join('\n'));
+
+      const allVectors = [...vectorDatabase.current, searchVector];
+      updateVisualization(allVectors);
+      
+      setTimeout(() => {
+        updateVisualization(vectorDatabase.current);
+      }, 2000);
+
     } catch (error) {
-      console.error('Error searching:', error);
+      console.error('Error finding similar texts:', error);
     } finally {
       setLoading(false);
     }
-  };
-
-  const updateVisualization = () => {
-    const viz = document.getElementById('visualization');
-    if (!viz) return;
-    
-    viz.innerHTML = '';
-    
-    vectorDatabase.current.forEach((vector, index) => {
-      const x = (vector.slice(0, 10).reduce((a, b) => a + b, 0) * 1000) % viz.offsetWidth;
-      const y = (vector.slice(10, 20).reduce((a, b) => a + b, 0) * 1000) % viz.offsetHeight;
-      
-      const point = document.createElement('div');
-      point.className = 'absolute w-2.5 h-2.5 bg-blue-500 rounded-full transform -translate-x-1/2 -translate-y-1/2';
-      point.style.left = `${x}px`;
-      point.style.top = `${y}px`;
-      point.title = textDatabase.current[index];
-      
-      viz.appendChild(point);
-    });
   };
 
   return (
@@ -155,6 +198,28 @@ const VectorDbDemo = ({t} : VectorDbDemoProps) => {
               {t.vectorDb.searchSimilar}
             </button>
           </div>
+        </div>
+
+        <div 
+          ref={vizRef}
+          className="w-full h-64 border border-gray-200 dark:border-gray-700 rounded-lg mb-6 relative bg-gray-50 dark:bg-gray-800"
+        >
+          {points.map((point, index) => (
+            <div
+              key={index}
+              className="absolute w-3 h-3 bg-blue-500 rounded-full transform -translate-x-1/2 -translate-y-1/2 transition-all duration-500 hover:scale-150 hover:z-10"
+              style={{
+                left: point.x + 'px',
+                top: point.y + 'px'
+              }}
+              title={point.text}
+            />
+          ))}
+          {loading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-900/10">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+            </div>
+          )}
         </div>
 
         <div className="overflow-auto max-h-96 rounded-md">
