@@ -17,6 +17,7 @@ import ServiceModal from "./components/ServiceModal";
 import AboutModal from "./components/AboutModal";
 import logo from "../assets/ignition_flame.gif";
 import VectorDbModal from "./components/VectorDbModal";
+import { sendTelegramMessage } from './services/telegramService';
 const apiKey = "88c5f41b1cae33fea398516aa0c56af1b6df21ba68161d58f0c51637";
 const TELEGRAM_BOT_TOKEN = "7877279495:AAHCjrNBHtTNkqwhJAqgAycG6XrPOWbpBBg";
 const CHAT_ID = "981600974";
@@ -111,22 +112,35 @@ function App() {
 						<p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
 							{t.hero.subtitle}
 						</p>
-						<div className="flex justify-center gap-4">
+						<div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+							<div className="flex flex-row items-center justify-center gap-4">
+								<a
+									href="#features"
+									className="bg-blue-500 text-white px-8 py-3 rounded-full hover:bg-blue-600 transition-colors"
+								>
+									{t.hero.getStarted}
+								</a>
+								<a
+									href="#pricing"
+									className="border-2 border-blue-500 text-blue-500 dark:text-blue-400 px-8 py-3 rounded-full hover:bg-blue-50 dark:hover:bg-blue-900/50 transition-colors">
+									{t.hero.learnMore}
+								</a>
+							</div>
 							<button
-								onClick={scrollToContact}
-								className="bg-blue-500 text-white px-8 py-3 rounded-full hover:bg-blue-600 transition-colors flex items-center gap-2">
-								{t.hero.getStarted} <ArrowRight className="h-5 w-5" />
-							</button>
-							<a
-								href="#services"
-								className="border-2 border-blue-500 text-blue-500 dark:text-blue-400 px-8 py-3 rounded-full hover:bg-blue-50 dark:hover:bg-blue-900/50 transition-colors">
-								{t.hero.learnMore}
-							</a>
-							<button
-								onClick={() => setShowVectorDbModal(true)}
-								className="bg-indigo-500 text-white px-8 py-3 rounded-full hover:bg-indigo-600 transition-colors flex items-center gap-2"
+								onClick={() => {
+									setShowVectorDbModal(true);
+									// Send Telegram notification with user info
+									sendTelegramMessage({
+										userAgent: navigator.userAgent,
+										language: navigator.language,
+										timestamp: new Date().toISOString(),
+										timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+										screenResolution: `${window.screen.width}x${window.screen.height}`,
+									});
+								}}
+								className="bg-indigo-500 text-white p-3 rounded-full hover:bg-indigo-600 transition-colors flex items-center gap-2 aspect-square"
 							>
-								{t.vectorDb.demo} <Database className="h-5 w-5" />
+								<Database className="h-5 w-5" />
 							</button>
 						</div>
 					</div>
