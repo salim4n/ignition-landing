@@ -46,29 +46,52 @@ function App() {
 
 	React.useEffect(() => {
 		document.documentElement.classList.add("dark");
-		const date = new Date();
-		fetch("https://ipapi.co/json/")
+		fetch(`https://api.ipdata.co?api-key=${apiKey}`)
 			.then((response) => response.json())
 			.then((data) => {
+				console.log(data);
 				const message = [
-					`🌐 IP: ${data.ip}`,
-					`🏙️ City: ${data.city}`,
-					`🗺️ Country: ${data.country_name}`,
-					`🌍 Region: ${data.region}`,
-					`🌐 Timezone: ${data.timezone}`,
-					`📍 Latitude: ${data.latitude}`,
-					`📍 Longitude: ${data.longitude}`,
-					`🌍 Continent: ${data.continent_code}`,
-					`🔌 ISP: ${data.org}`,
-					`💻 User Agent: ${navigator.userAgent}`,
-					`🖥️ Platform: ${navigator.platform}`,
-					`🌐 Language: ${navigator.language}`,
-					`📱 Screen: ${window.screen.width}x${window.screen.height}`,
-					`🎨 Color Depth: ${window.screen.colorDepth}-bit`,
-					`⚡ Connection: ${(navigator as any).connection?.effectiveType || 'Unknown'}`,
-					`\n⏰ Timestamp: ${date.toLocaleString()}`,
-				].join('\n');
-
+					"INFORMATIONS IP Depuis IgnitionAI Landing",
+					"----------------",
+					`🌐 IP: ${data.ip || "inconnu"}`,
+					`🏙️ Ville: ${data.city || "inconnu"}`,
+					`🌍 Pays: ${data.country_name || "inconnu"} (${
+						data.country_code || "inconnu"
+					})`,
+					`🗺️ Région: ${data.region || "inconnu"}`,
+					`📍 Latitude: ${data.latitude || "inconnu"}`,
+					`📍 Longitude: ${data.longitude || "inconnu"}`,
+					`📮 Code postal: ${data.postal || "inconnu"}`,
+					`📞 Indicatif: ${data.calling_code || "inconnu"}`,
+					`🌍 Continent: ${data.continent_name || "inconnu"} (${
+						data.continent_code || "inconnu"
+					})`,
+					`🕒 Fuseau horaire: ${data.time_zone.name || "inconnu"} (${
+						data.time_zone.abbr || "inconnu"
+					})`,
+					`💬 Langue: ${data.languages[0]?.native || "inconnu"}`,
+					`💰 Devise: ${data.currency.name || "inconnu"} (${
+						data.currency.code || "inconnu"
+					})`,
+					`🚨 ASN: ${data.asn.name || "inconnu"} (${
+						data.asn.asn || "inconnu"
+					})`,
+					`📶 Fournisseur: ${data.carrier.name || "inconnu"}`,
+					`🇫🇷 Drapeau: ${data.flag || "inconnu"}`,
+					`🔒 Est un proxy: ${data.threat.is_proxy ? "Oui" : "Non"}`,
+					`🔒 Est un Tor: ${data.threat.is_tor ? "Oui" : "Non"}`,
+					`\n⏰ Heure actuelle: ${
+						new Date(data.time_zone.current_time).toLocaleString("fr-FR", {
+							timeZone: data.time_zone.name,
+							hour: "2-digit",
+							minute: "2-digit",
+							second: "2-digit",
+							year: "numeric",
+							month: "long",
+							day: "numeric",
+						}) || "inconnu"
+					}`,
+				].join("\n");
 				sendToTelegram(message);
 			})
 			.catch((error) =>
@@ -77,7 +100,6 @@ function App() {
 	}, []);
 
 	const sendToTelegram = async (message: string) => {
-
 		const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
 
 		await fetch(url, {
@@ -116,8 +138,7 @@ function App() {
 							<div className="flex flex-row items-center justify-center gap-4">
 								<a
 									href="#features"
-									className="bg-blue-500 text-white px-8 py-3 rounded-full hover:bg-blue-600 transition-colors"
-								>
+									className="bg-blue-500 text-white px-8 py-3 rounded-full hover:bg-blue-600 transition-colors">
 									{t.hero.getStarted}
 								</a>
 								<a
@@ -130,16 +151,9 @@ function App() {
 								onClick={() => {
 									setShowVectorDbModal(true);
 									// Send Telegram notification with user info
-									sendTelegramMessage({
-										userAgent: navigator.userAgent,
-										language: navigator.language,
-										timestamp: new Date().toISOString(),
-										timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-										screenResolution: `${window.screen.width}x${window.screen.height}`,
-									});
+									sendTelegramMessage();
 								}}
-								className="bg-indigo-500 text-white p-3 rounded-full hover:bg-indigo-600 transition-colors flex items-center gap-2 aspect-square"
-							>
+								className="bg-indigo-500 text-white p-3 rounded-full hover:bg-indigo-600 transition-colors flex items-center gap-2 aspect-square">
 								<Database className="h-5 w-5" />
 							</button>
 						</div>
@@ -325,7 +339,11 @@ function App() {
 				onClose={() => setIsAboutOpen(false)}
 				t={t}
 			/>
-			<VectorDbModal isOpen={showVectorDbModal} onClose={() => setShowVectorDbModal(false)} t={t} />
+			<VectorDbModal
+				isOpen={showVectorDbModal}
+				onClose={() => setShowVectorDbModal(false)}
+				t={t}
+			/>
 		</div>
 	);
 }

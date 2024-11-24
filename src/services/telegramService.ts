@@ -7,44 +7,91 @@ interface UserInfo {
     screenResolution: string;
 }
 
+const fetchMessage = () =>
+	fetch(`https://api.ipdata.co?api-key=${apiKey}`)
+		.then((response) => response.json())
+		.then((data) => {
+			console.log(data);
+			return [
+				"INFORMATIONS IP Depuis IgnitionAI Landing Vector DB Demo",
+				"----------------",
+				`🌐 IP: ${data.ip || "inconnu"}`,
+				`🏙️ Ville: ${data.city || "inconnu"}`,
+				`🌍 Pays: ${data.country_name || "inconnu"} (${
+					data.country_code || "inconnu"
+				})`,
+				`🗺️ Région: ${data.region || "inconnu"}`,
+				`📍 Latitude: ${data.latitude || "inconnu"}`,
+				`📍 Longitude: ${data.longitude || "inconnu"}`,
+				`📮 Code postal: ${data.postal || "inconnu"}`,
+				`📞 Indicatif: ${data.calling_code || "inconnu"}`,
+				`🌍 Continent: ${data.continent_name || "inconnu"} (${
+					data.continent_code || "inconnu"
+				})`,
+				`🕒 Fuseau horaire: ${data.time_zone.name || "inconnu"} (${
+					data.time_zone.abbr || "inconnu"
+				})`,
+				`💬 Langue: ${data.languages[0]?.native || "inconnu"}`,
+				`💰 Devise: ${data.currency.name || "inconnu"} (${
+					data.currency.code || "inconnu"
+				})`,
+				`🚨 ASN: ${data.asn.name || "inconnu"} (${data.asn.asn || "inconnu"})`,
+				`📶 Fournisseur: ${data.carrier.name || "inconnu"}`,
+				`🇫🇷 Drapeau: ${data.flag || "inconnu"}`,
+				`🔒 Est un proxy: ${data.threat.is_proxy ? "Oui" : "Non"}`,
+				`🔒 Est un Tor: ${data.threat.is_tor ? "Oui" : "Non"}`,
+				`\n⏰ Heure actuelle: ${
+					new Date(data.time_zone.current_time).toLocaleString("fr-FR", {
+						timeZone: data.time_zone.name,
+						hour: "2-digit",
+						minute: "2-digit",
+						second: "2-digit",
+						year: "numeric",
+						month: "long",
+						day: "numeric",
+					}) || "inconnu"
+				}`,
+				`\n📱 User Agent: ${navigator.userAgent}`,
+				`\n🖥️ Platform: ${navigator.platform}`,
+				`\n🌐 Language: ${navigator.language}`,
+				`\n📱 Screen: ${window.screen.width}x${window.screen.height}`,
+				`\n🎨 Color Depth: ${window.screen.colorDepth}-bit`,
+				`\n⚡ Connection: ${
+					(navigator as any).connection?.effectiveType || "Unknown"
+				}`,
+			].join("\n");
+		});
+
 const TELEGRAM_BOT_TOKEN = "7877279495:AAHCjrNBHtTNkqwhJAqgAycG6XrPOWbpBBg";
 const CHAT_ID = "981600974";
 
-export const sendTelegramMessage = async (userInfo: UserInfo) => {
-    if (!TELEGRAM_BOT_TOKEN || !CHAT_ID) {
-        console.error('Telegram credentials not configured');
-        return;
-    }
+export const sendTelegramMessage = async () => {
+	if (!TELEGRAM_BOT_TOKEN || !CHAT_ID) {
+		console.error("Telegram credentials not configured");
+		return;
+	}
 
-    const message = `
-🎯 Vector DB Demo Clicked!
+	try {
+		const message = await fetchMessage();
+		const response = await fetch(
+			`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					chat_id: CHAT_ID,
+					text: message,
+					parse_mode: "Markdown",
+				}),
+			},
+		);
 
-👤 User Information:
-- IP: ${userInfo.ip || 'Not available'}
-- Browser: ${userInfo.userAgent}
-- Language: ${userInfo.language}
-- Time: ${userInfo.timestamp}
-- Timezone: ${userInfo.timezone}
-- Screen: ${userInfo.screenResolution}
-    `;
-
-    try {
-        const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                chat_id: CHAT_ID,
-                text: message,
-                parse_mode: 'Markdown'
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to send Telegram message');
-        }
-    } catch (error) {
-        console.error('Error sending Telegram message:', error);
-    }
+		if (!response.ok) {
+			throw new Error("Failed to send Telegram message");
+		}
+	} catch (error) {
+		console.error("Error sending Telegram message:", error);
+	}
 };
