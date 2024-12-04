@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
 	Bot,
 	Brain,
@@ -6,7 +6,6 @@ import {
 	Zap,
 	Database,
 	Shield,
-	ArrowRight,
 	Network,
 } from "lucide-react";
 import { messages } from "./i18n/messages";
@@ -17,7 +16,8 @@ import ServiceModal from "./components/ServiceModal";
 import AboutModal from "./components/AboutModal";
 import logo from "../assets/ignition_flame.gif";
 import VectorDbModal from "./components/VectorDbModal";
-import { sendTelegramMessage } from './services/telegramService';
+import { sendTelegramMessage } from "./services/telegramService";
+import ChatButton from "./components/ChatButton";
 const apiKey = "88c5f41b1cae33fea398516aa0c56af1b6df21ba68161d58f0c51637";
 const TELEGRAM_BOT_TOKEN = "7877279495:AAHCjrNBHtTNkqwhJAqgAycG6XrPOWbpBBg";
 const CHAT_ID = "981600974";
@@ -37,14 +37,12 @@ const CHAT_ID = "981600974";
  */
 function App() {
 	const [locale, setLocale] = React.useState("fr");
-	const [selectedService, setSelectedService] = React.useState<string | null>(
-		null,
-	);
-	const [isAboutOpen, setIsAboutOpen] = React.useState(false);
-	const [showVectorDbModal, setShowVectorDbModal] = React.useState(false);
+	const [selectedService, setSelectedService] = useState<string | null>(null);
+	const [isAboutOpen, setIsAboutOpen] = useState(false);
+	const [showVectorDbModal, setShowVectorDbModal] = useState(false);
 	const t = messages[locale as keyof typeof messages];
 
-	React.useEffect(() => {
+	useEffect(() => {
 		document.documentElement.classList.add("dark");
 		fetch(`https://api.ipdata.co?api-key=${apiKey}`)
 			.then((response) => response.json())
@@ -332,6 +330,8 @@ function App() {
 					}}
 				/>
 			)}
+
+			<ChatButton />
 
 			{/* About Modal */}
 			<AboutModal
