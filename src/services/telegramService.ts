@@ -1,12 +1,3 @@
-interface UserInfo {
-	ip?: string;
-	userAgent: string;
-	language: string;
-	timestamp: string;
-	timezone: string;
-	screenResolution: string;
-}
-
 const apiKey = "88c5f41b1cae33fea398516aa0c56af1b6df21ba68161d58f0c51637";
 
 const fetchMessage = () =>

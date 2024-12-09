@@ -16,25 +16,13 @@ import ServiceModal from "./components/ServiceModal";
 import AboutModal from "./components/AboutModal";
 import logo from "../assets/ignition_flame.gif";
 import VectorDbModal from "./components/VectorDbModal";
-import { sendTelegramMessage } from "./services/telegramService";
 import ChatButton from "./components/ChatButton";
+import { sendTelegramMessage } from "./services/telegramService";
 const apiKey = "88c5f41b1cae33fea398516aa0c56af1b6df21ba68161d58f0c51637";
 const TELEGRAM_BOT_TOKEN = "7877279495:AAHCjrNBHtTNkqwhJAqgAycG6XrPOWbpBBg";
 const CHAT_ID = "981600974";
 
-/**
- * The main App component.
- *
- * This component renders the main application layout, including the
- * navigation bar, hero section, services section, features section, and
- * contact section.
- *
- * It also handles the logic for sending a message to Telegram when the
- * user visits the site, and for rendering the service modal when the user
- * clicks on a service card.
- *
- * @returns {JSX.Element} The main App component.
- */
+ 
 function App() {
 	const [locale, setLocale] = React.useState("fr");
 	const [selectedService, setSelectedService] = useState<string | null>(null);
