@@ -15,6 +15,7 @@
     "lucide-react": "^0.344.0",
     "next-intl": "^3.9.1",
     "react-dom": "^18.3.1",
+    "react-markdown": "^9.0.1",
     "vite-react-typescript-starter": "file:"
   },
   "devDependencies": {
