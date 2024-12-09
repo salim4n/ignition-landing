@@ -5,7 +5,7 @@ import { Bot } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
 const api_url: string = import.meta.env.PROD 
-  ? "https://ignition-bot.onrender.com/search"
+  ? "https://ignition-bot.onrender.com/api/search"
   : "/api/search" as const;
 
 interface Message {
@@ -33,9 +33,10 @@ const ChatButton = () => {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
+					"Origin": "https://ignitionai.fr"
 				},
 				mode: "cors",
-				credentials: "include",
+				credentials: "omit",
 				body: JSON.stringify({
 					query: inputMessage,
 					k: 5,
