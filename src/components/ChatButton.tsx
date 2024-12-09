@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MessageCircle, X } from "lucide-react";
+import { MessageCircle, X, Maximize2, Minimize2 } from "lucide-react";
 import logo from "../../assets/ignition_flame.gif";
 import { Bot } from "lucide-react";
 import ReactMarkdown from "react-markdown";
@@ -13,6 +13,7 @@ interface Message {
 
 const ChatButton = () => {
 	const [isOpen, setIsOpen] = useState(false);
+	const [isExpanded, setIsExpanded] = useState(false);
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [inputMessage, setInputMessage] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
@@ -69,17 +70,32 @@ const ChatButton = () => {
 	return (
 		<div className="fixed bottom-4 right-4 z-50">
 			{isOpen && (
-				<div className="mb-4 dark:bg-gray-900/80 backdrop-blur-md text-white rounded-lg shadow-lg w-72 sm:w-96 h-96">
+				<div className={`mb-4 dark:bg-gray-900/80 backdrop-blur-md text-white rounded-lg shadow-lg transition-all duration-300 ease-in-out ${
+					isExpanded 
+						? "fixed top-4 right-4 left-4 bottom-4 w-auto h-auto" 
+						: "w-72 sm:w-96 h-96"
+				}`}>
 					<div className="p-4 border-b flex justify-between items-center">
 						<img src={logo} alt="ignition-flame" className="h-12 w-12" />
 						<span className="text-2xl font-bold bg-gradient-to-r from-blue-200 to-blue-500 bg-clip-text text-transparent">
 							IgnitionAI - Chatbot
 						</span>
-						<button
-							onClick={() => setIsOpen(false)}
-							className="p-1 hover:bg-gray-100 rounded-full">
-							<X className="w-5 h-5" />
-						</button>
+						<div className="flex gap-2">
+							<button
+								onClick={() => setIsExpanded(!isExpanded)}
+								className="p-1 hover:bg-gray-100 rounded-full">
+								{isExpanded ? (
+									<Minimize2 className="w-5 h-5" />
+								) : (
+									<Maximize2 className="w-5 h-5" />
+								)}
+							</button>
+							<button
+								onClick={() => setIsOpen(false)}
+								className="p-1 hover:bg-gray-100 rounded-full">
+								<X className="w-5 h-5" />
+							</button>
+						</div>
 					</div>
 					<div className="p-4 h-[calc(100%-4rem)] overflow-y-auto flex flex-col">
 						<div className="flex-1 overflow-y-auto space-y-4">
