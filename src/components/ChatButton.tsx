@@ -5,7 +5,7 @@ import { Bot } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
 const api_url: string = import.meta.env.PROD 
-  ? "https://ignition-bot.onrender.com/api/search"
+  ? "https://ignition-bot.onrender.com:3002/api/search"
   : "/api/search" as const;
 
 interface Message {
