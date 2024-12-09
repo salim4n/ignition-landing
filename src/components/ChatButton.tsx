@@ -4,7 +4,9 @@ import logo from "../../assets/ignition_flame.gif";
 import { Bot } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
-const api_url: string = "/api/search" as const;
+const api_url: string = import.meta.env.PROD 
+  ? "https://ignition-bot.onrender.com/search"
+  : "/api/search" as const;
 
 interface Message {
 	text: string;
