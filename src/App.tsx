@@ -305,6 +305,15 @@ function App() {
 									Blog
 								</a>
 							</li>
+							<li>
+								<a
+									href="https://www.pretorian-system.com/"
+									target="_blank"
+									rel="noopener noreferrer"
+									className="hover:text-blue-400 transition-colors">
+									Pretorian System
+								</a>
+							</li>
 						</ul>
 					</div>
 				</div>
