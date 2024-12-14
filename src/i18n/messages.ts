@@ -4,7 +4,7 @@ export const messages = {
 			services: "Services",
 			features: "Features",
 			contact: "Contact",
-			getStarted: "Get Started",
+			getStarted: "Start Your Project",
 		},
 		vectorDb: {
 			title: "Vector Database Demo",
@@ -19,43 +19,43 @@ export const messages = {
 			title: "Ignite Your AI Potential",
 			subtitle:
 				"We turn your data into competitive advantage through cutting-edge AI. Specializing in LLMs and intelligent systems, we bring your most ambitious projects to life",
-			getStarted: "Get Started",
+			getStarted: "Start Your Project",
 			learnMore: "Learn More",
 		},
 		services: {
 			title: "Our Services",
 			rag: {
-				title: "RAG Systems",
+				title: "Enterprise RAG Systems",
 				description:
-					"Custom Retrieval-Augmented Generation systems that enhance your AI's knowledge with your proprietary data.",
+					"Advanced Retrieval-Augmented Generation systems that seamlessly integrate your proprietary data with state-of-the-art language models",
 				details: [
-					"Seamless integration with existing knowledge bases",
-					"Real-time information retrieval and processing",
-					"Custom knowledge graph creation",
-					"Automated document processing and indexing",
+					"Custom data source connectors",
+					"Semantic search optimization",
+					"Automated document processing pipeline",
+					"High-availability architecture",
 				],
 				benefits: [
-					"Improved accuracy and relevance in AI responses",
-					"Reduced hallucinations and false information",
-					"Better handling of domain-specific queries",
-					"Enhanced data security and privacy",
+					"85%+ increase in response accuracy",
+					"Immediate knowledge base valorization",
+					"Near-zero hallucination rate",
+					"Real-time business context maintenance",
 				],
 			},
 			chatbots: {
-				title: "AI Chatbots",
+				title: "Advanced Conversational Agents",
 				description:
-					"Intelligent conversational agents that understand context and provide meaningful interactions",
+					"Next-generation LLM-powered chatbots with deep contextual understanding and enterprise-grade capabilities",
 				details: [
-					"Natural language understanding and processing",
-					"Context-aware conversations",
-					"Multi-language support",
-					"Custom personality and tone settings",
+					"Multi-channel deployment (Web, Mobile, API)",
+					"Advanced tone and personality customization",
+					"Native multilingual capabilities",
+					"Real-time behavioral analytics",
 				],
 				benefits: [
-					"24/7 customer support availability",
-					"Reduced response time and support costs",
-					"Consistent user experience",
-					"Scalable customer engagement",
+					"70% reduction in support costs",
+					"40% improvement in CSAT scores",
+					"24/7 scalable customer support",
+					"Automated customer insight generation",
 				],
 			},
 			llm: {
@@ -76,44 +76,46 @@ export const messages = {
 				],
 			},
 			agents: {
-				title: "Multi-Agent Systems",
+				title: "Intelligent Multi-Agent Systems",
 				description:
-					"Advanced AI agents that collaborate autonomously to solve complex tasks and streamline business processes",
+					"Self-orchestrating AI agents powered by LangChain and AutoGPT for complex business process automation",
 				details: [
-					"Inter-agent communication protocols",
-					"Task decomposition and delegation",
-					"Autonomous decision-making",
-					"Real-time coordination and optimization",
+					"LangChain/AutoGPT architecture",
+					"Self-optimizing workflows",
+					"Enterprise API integration",
+					"Real-time performance monitoring",
 				],
 				benefits: [
-					"Improved process automation",
-					"Enhanced problem-solving capabilities",
-					"Reduced manual intervention",
-					"Scalable system architecture",
+					"End-to-end process automation",
+					"80% reduction in manual tasks",
+					"Audited autonomous decision-making",
+					"Unlimited operational scaling",
 				],
 			},
 		},
 		features: {
 			title: "Why Choose ",
 			fast: {
-				title: "Lightning Fast",
+				title: "Production-Ready",
 				description:
-					"Rapid deployment and real-time processing for immediate results",
+					"From prototype to production in weeks, not months. Built on proven frameworks with scalable architecture.",
 			},
 			scalable: {
-				title: "Scalable",
-				description: "Solutions that grow with your business needs",
+				title: "Cost-Efficient",
+				description:
+					"Optimized inference costs and resource usage. Pay only for what you need as you grow.",
 			},
 			secure: {
-				title: "Secure",
-				description: "Enterprise-grade security for your sensitive data",
+				title: "Enterprise-Grade",
+				description:
+					"GDPR-compliant implementations with data security at the core of our solutions.",
 			},
 		},
 		cta: {
-			title: "Ready to Transform Your Business?",
+			title: "Ready to Enhance Your Business with AI?",
 			subtitle:
-				"Let's discuss how we can help you leverage the power of artificial intelligence",
-			button: "Schedule a Consultation",
+				"Book a technical consultation to discuss your project with our AI engineers",
+			button: "Schedule Technical Call",
 		},
 		contact: {
 			firstName: "First Name",
@@ -145,19 +147,59 @@ export const messages = {
 			expertiseTitle: "Our Expertise",
 			approachTitle: "Our Approach",
 			getInTouch: "Get in touch",
-			description: `IgnitionAI is at the forefront of artificial intelligence innovation, specializing in creating 
-              intelligent solutions that transform how businesses operate. Our expertise spans across RAG systems, 
-              chatbots, LLM implementations, and multi-agent systems.`,
-			mission: `We're committed to making advanced AI technology accessible and practical for businesses of all sizes. 
-              Our mission is to bridge the gap between cutting-edge AI research and real-world applications, 
-              delivering solutions that drive tangible results.`,
-			expertise: `With a team of experienced AI researchers and engineers, we specialize in developing custom AI 
-              solutions that address specific business challenges. Our deep understanding of language models, 
-              retrieval systems, and multi-agent architectures allows us to create sophisticated yet user-friendly 
-              AI applications.`,
-			approach: `We believe in a collaborative approach, working closely with our clients to understand their unique 
-              needs and challenges. Our solutions are built with scalability, security, and performance in mind, 
-              ensuring long-term value for our clients.`,
+			description:
+				"Specialized AI consultancy focused on practical business applications of language models and intelligent systems. TensorFlow certified developers with experience in enterprise LLM deployments.",
+			mission:
+				"We bridge the gap between cutting-edge AI technology and business needs through practical, production-ready solutions.",
+			expertise:
+				"Our team combines deep technical expertise in LLMs, RAG systems, and multi-agent architectures with real-world implementation experience.",
+			approach:
+				"We focus on delivering measurable business value through carefully architected AI solutions that are secure, scalable, and cost-effective.",
+		},
+		resources: {
+			title: "Technical Resources",
+			subtitle: "Practical guides and documentation for AI developers",
+			blog: {
+				title: "Developer Documentation",
+				description:
+					"Detailed technical guides and best practices for AI implementation",
+				categories: [
+					"LLM Integration Guides",
+					"RAG System Architecture",
+					"Agent Development",
+					"Production Deployment",
+				],
+				cta: "Access Documentation",
+			},
+			learning: {
+				title: "Learning Path",
+				sections: [
+					{
+						title: "LLM Fundamentals",
+						topics: [
+							"Model Types and Capabilities",
+							"Prompt Engineering",
+							"Fine-tuning Strategies",
+						],
+					},
+					{
+						title: "RAG Implementation",
+						topics: [
+							"Vector Databases",
+							"Embedding Models",
+							"Retrieval Optimization",
+						],
+					},
+					{
+						title: "Production Best Practices",
+						topics: [
+							"Security Considerations",
+							"Cost Optimization",
+							"Performance Monitoring",
+						],
+					},
+				],
+			},
 		},
 	},
 	fr: {
@@ -165,7 +207,7 @@ export const messages = {
 			services: "Services",
 			features: "Fonctionnalités",
 			contact: "Contact",
-			getStarted: "Commencer",
+			getStarted: "Démarrer Votre Projet",
 		},
 		vectorDb: {
 			title: "Démo Base de Données Vectorielle",
@@ -180,43 +222,43 @@ export const messages = {
 			title: "Libérez votre Potentiel IA",
 			subtitle:
 				"Nous transformons vos données en avantage compétitif grâce à l'IA de pointe. Spécialistes des LLMs et systèmes intelligents, nous concrétisons vos projets les plus ambitieux",
-			getStarted: "Commencer",
+			getStarted: "Démarrer Votre Projet",
 			learnMore: "En savoir plus",
 		},
 		services: {
 			title: "Nos Services",
 			rag: {
-				title: "Systèmes RAG",
+				title: "Systèmes RAG Entreprise",
 				description:
-					"Systèmes de génération augmentée par récupération personnalisés qui enrichissent les connaissances de votre IA avec vos données propriétaires",
+					"Systèmes avancés de génération augmentée par récupération intégrant harmonieusement vos données propriétaires aux modèles de langage dernière génération",
 				details: [
-					"Intégration transparente avec les bases de connaissances existantes",
-					"Récupération et traitement d'informations en temps réel",
-					"Création de graphes de connaissances personnalisés",
-					"Traitement et indexation automatisés des documents",
+					"Connecteurs personnalisés pour vos sources de données",
+					"Optimisation de la recherche sémantique",
+					"Pipeline automatisé de traitement documentaire",
+					"Architecture haute disponibilité",
 				],
 				benefits: [
-					"Amélioration de la précision et de la pertinence des réponses IA",
-					"Réduction des hallucinations et des fausses informations",
-					"Meilleure gestion des requêtes spécifiques au domaine",
-					"Sécurité et confidentialité des données renforcées",
+					"Augmentation de 85%+ de la précision des réponses",
+					"Valorisation immédiate des bases de connaissances",
+					"Taux d'hallucination quasi-nul",
+					"Maintenance en temps réel du contexte métier",
 				],
 			},
 			chatbots: {
-				title: "Chatbots IA",
+				title: "Agents Conversationnels Avancés",
 				description:
-					"Agents conversationnels intelligents qui comprennent le contexte et fournissent des interactions significatives",
+					"Chatbots nouvelle génération basés sur les LLMs avec compréhension contextuelle approfondie et fonctionnalités entreprise",
 				details: [
-					"Compréhension et traitement du langage naturel",
-					"Conversations contextuelles",
-					"Support multilingue",
-					"Paramètres de personnalité et de ton personnalisables",
+					"Déploiement multi-canal (Web, Mobile, API)",
+					"Personnalisation avancée du ton et du style",
+					"Capacités multilingues natives",
+					"Analyse comportementale en temps réel",
 				],
 				benefits: [
-					"Support client disponible 24/7",
-					"Réduction du temps de réponse et des coûts de support",
-					"Expérience utilisateur cohérente",
-					"Engagement client évolutif",
+					"Réduction de 70% des coûts de support",
+					"Amélioration de 40% du score CSAT",
+					"Support client 24/7 évolutif",
+					"Génération automatisée d'insights clients",
 				],
 			},
 			llm: {
@@ -237,20 +279,20 @@ export const messages = {
 				],
 			},
 			agents: {
-				title: "Systèmes Multi-Agents",
+				title: "Systèmes Multi-Agents Intelligents",
 				description:
-					"Agents IA avancés qui collaborent de manière autonome pour résoudre des tâches complexes et optimiser les processus métier",
+					"Agents IA auto-orchestrés propulsés par LangChain et AutoGPT pour l'automatisation des processus métier complexes",
 				details: [
-					"Protocoles de communication inter-agents",
-					"Décomposition et délégation des tâches",
-					"Prise de décision autonome",
-					"Coordination et optimisation en temps réel",
+					"Architecture LangChain/AutoGPT",
+					"Workflows auto-optimisants",
+					"Intégration API entreprise",
+					"Monitoring des performances en temps réel",
 				],
 				benefits: [
-					"Amélioration de l'automatisation des processus",
-					"Capacités de résolution de problèmes améliorées",
-					"Réduction des interventions manuelles",
-					"Architecture système évolutive",
+					"Automatisation complète des processus",
+					"Réduction de 80% des tâches manuelles",
+					"Prise de décision autonome auditée",
+					"Scalabilité opérationnelle illimitée",
 				],
 			},
 		},
@@ -271,10 +313,10 @@ export const messages = {
 			},
 		},
 		cta: {
-			title: "Prêt à Transformer Votre Entreprise ?",
+			title: "Prêt à Améliorer Votre Entreprise avec l'IA ?",
 			subtitle:
-				"Découvrez comment nous pouvons vous aider à exploiter la puissance de l'intelligence artificielle",
-			button: "Planifier une Consultation",
+				"Réservez une consultation technique pour discuter de votre projet avec nos ingénieurs IA",
+			button: "Planifier un Appel Technique",
 		},
 		contact: {
 			firstName: "Prénom",
@@ -307,12 +349,59 @@ export const messages = {
 			expertiseTitle: "Notre Expertise",
 			approachTitle: "Notre Approche",
 			getInTouch: "Contactez-nous",
-			description: `
-IgnitionAI est à la pointe de l'innovation en intelligence artificielle, spécialisée dans la création de solutions intelligentes qui transforment le fonctionnement des entreprises. Notre expertise couvre les systèmes RAG, les chatbots, les implémentations de LLM et les systèmes multi-agents`,
-			mission: `Nous nous engageons à rendre la technologie avancée de l'IA accessible et pratique pour les entreprises de toutes tailles. Notre mission est de combler le fossé entre la recherche de pointe en IA et les applications concrètes, en fournissant des solutions qui génèrent des résultats tangibles`,
-			expertise: `Avec une équipe de chercheurs et d'ingénieurs en IA expérimentés, nous sommes spécialisés dans le développement de solutions d'IA sur mesure répondant à des défis spécifiques des entreprises. Notre maîtrise approfondie des modèles linguistiques, des systèmes de recherche et des architectures multi-agents nous permet de créer des applications d'IA sophistiquées et conviviales`,
-			approach: `
-Nous croyons en une approche collaborative, travaillant en étroite collaboration avec nos clients pour comprendre leurs besoins et défis uniques. Nos solutions sont conçues en tenant compte de l'évolutivité, de la sécurité et des performances, garantissant une valeur durable pour nos clients`,
+			description:
+				"Cabinet de conseil spécialisé en IA focalisé sur les applications métier pratiques des modèles de langage et systèmes intelligents. Développeurs certifiés TensorFlow avec expérience en déploiement LLM entreprise.",
+			mission:
+				"Nous comblons le fossé entre la technologie IA de pointe et les besoins métier par des solutions pratiques et prêtes pour la production.",
+			expertise:
+				"Notre équipe combine une expertise technique pointue en LLMs, systèmes RAG et architectures multi-agents avec une expérience concrète d'implémentation.",
+			approach:
+				"Nous nous concentrons sur la création de valeur mesurable à travers des solutions IA soigneusement architecturées, sécurisées, évolutives et rentables.",
+		},
+		resources: {
+			title: "Ressources Techniques",
+			subtitle: "Guides pratiques et documentation pour développeurs IA",
+			blog: {
+				title: "Documentation Développeur",
+				description:
+					"Guides techniques détaillés et bonnes pratiques pour l'implémentation IA",
+				categories: [
+					"Guides d'Intégration LLM",
+					"Architecture Système RAG",
+					"Développement d'Agents",
+					"Déploiement en Production",
+				],
+				cta: "Accéder à la Documentation",
+			},
+			learning: {
+				title: "Parcours d'Apprentissage",
+				sections: [
+					{
+						title: "Fondamentaux LLM",
+						topics: [
+							"Types et Capacités des Modèles",
+							"Ingénierie de Prompts",
+							"Stratégies de Fine-tuning",
+						],
+					},
+					{
+						title: "Implémentation RAG",
+						topics: [
+							"Bases de Données Vectorielles",
+							"Modèles d'Embedding",
+							"Optimisation de la Récupération",
+						],
+					},
+					{
+						title: "Bonnes Pratiques Production",
+						topics: [
+							"Considérations de Sécurité",
+							"Optimisation des Coûts",
+							"Monitoring des Performances",
+						],
+					},
+				],
+			},
 		},
 	},
 };

@@ -15,7 +15,6 @@ import ContactForm from "./components/ContactForm";
 import ServiceModal from "./components/ServiceModal";
 import AboutModal from "./components/AboutModal";
 import logo from "../assets/ignition_flame.gif";
-import hero from "../assets/hero.gif";
 import VectorDbModal from "./components/VectorDbModal";
 import ChatButton from "./components/ChatButton";
 import VectorDbButton from "./components/VectorDbButton";
@@ -230,7 +229,9 @@ function App() {
 				{/* CTA Section with Contact Form */}
 				<section id="contact" className="py-20 px-4 bg-blue-gray">
 					<div className="max-w-4xl mx-auto text-center">
-						<h2 className="text-3xl font-bold text-white mb-6">{t.cta.title}</h2>
+						<h2 className="text-3xl font-bold text-white mb-6">
+							{t.cta.title}
+						</h2>
 						<p className="text-blue-100 mb-8">{t.cta.subtitle}</p>
 						<ContactForm t={t} />
 					</div>
@@ -238,7 +239,7 @@ function App() {
 			</section>
 
 			{/* Footer */}
-			<footer className="bg-gray-900 text-gray-400 py-12 px-4">
+			<footer id="footer" className="bg-gray-900 text-gray-400 py-12 px-4">
 				<div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-8">
 					<div>
 						<div className="flex items-center space-x-2 mb-4">
@@ -293,6 +294,15 @@ function App() {
 									rel="noopener noreferrer"
 									className="hover:text-blue-400 transition-colors">
 									LinkedIn
+								</a>
+							</li>
+							<li>
+								<a
+									href="https://ignitionai-note.vercel.app/"
+									target="_blank"
+									rel="noopener noreferrer"
+									className="hover:text-blue-400 transition-colors">
+									Blog
 								</a>
 							</li>
 						</ul>
