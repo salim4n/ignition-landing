@@ -9,15 +9,16 @@ export const messages = {
 		vectorDb: {
 			title: "Vector Database Demo",
 			demo: "Try Vector DB",
-			howItWorks: "This demo shows how vector databases work using TensorFlow.js and the Universal Sentence Encoder",
-			desc : "Enter a sentence in the input field below and add it to the vector database. Then, find similar sentences using the 'Find Similar' button",
+			howItWorks:
+				"This demo shows how vector databases work using TensorFlow.js and the Universal Sentence Encoder",
+			desc: "Enter a sentence in the input field below and add it to the vector database. Then, find similar sentences using the 'Find Similar' button",
 			addText: "Add to Database",
 			searchSimilar: "Find Similar",
 		},
 		hero: {
 			title: "Ignite Your AI Potential",
 			subtitle:
-				"Transform your business with smart technologies using tailored chatbots, advanced systems and solutions that deliver measurable results.",
+				"We turn your data into competitive advantage through cutting-edge AI. Specializing in LLMs and intelligent systems, we bring your most ambitious projects to life",
 			getStarted: "Get Started",
 			learnMore: "Learn More",
 		},
@@ -58,20 +59,20 @@ export const messages = {
 				],
 			},
 			llm: {
-				title: "LLM Solutions",
+				title: "Enterprise LLM Solutions",
 				description:
-					"Tailored Large Language Model implementations that solve your specific business challenges",
+					"Custom-built large language model implementations leveraging GPT-4, Claude, and LLaMA to solve your specific business challenges",
 				details: [
-					"Custom model fine-tuning",
-					"Domain-specific training",
-					"Performance optimization",
-					"Integration with existing systems",
+					"Industry-specific model fine-tuning",
+					"Optimized inference costs and latency",
+					"Secure enterprise integration",
+					"Continuous performance monitoring",
 				],
 				benefits: [
-					"Improved accuracy for specific use cases",
-					"Better handling of industry-specific terminology",
-					"Reduced computational costs",
-					"Enhanced model performance",
+					"40-60% reduction in operational costs",
+					"Automated complex document processing",
+					"Accelerated time-to-market",
+					"GDPR-compliant data handling",
 				],
 			},
 			agents: {
@@ -167,18 +168,18 @@ export const messages = {
 			getStarted: "Commencer",
 		},
 		vectorDb: {
-			title: "Demo de base de données vectorielles",
-			demo: "Essayer Vector DB",
-			howItWorks: "Cette demo illustre comment les bases de données vectorielles fonctionnent en utilisant TensorFlow.js et l'encodeur de sentence universel",
-			desc : "Entrez une phrase dans le champ de saisie ci-dessous et ajoutez-la à la base de données vectorielles. Ensuite, trouvez des phrases similaires utilisant le bouton 'Trouver Similaires'",
-			addText: "Ajouter à la base de données",
-			searchSimilar: "Trouver Similaires",
-
+			title: "Démo Base de Données Vectorielle",
+			demo: "Essayer la BD Vectorielle",
+			howItWorks:
+				"Cette démo montre comment fonctionnent les bases de données vectorielles en utilisant TensorFlow.js et l'Universal Sentence Encoder",
+			desc: "Entrez une phrase dans le champ ci-dessous et ajoutez-la à la base de données vectorielle. Ensuite, trouvez des phrases similaires en utilisant le bouton 'Rechercher Similaires'",
+			addText: "Ajouter à la Base",
+			searchSimilar: "Rechercher Similaires",
 		},
 		hero: {
 			title: "Libérez votre Potentiel IA",
 			subtitle:
-				"Transformez votre entreprise grâce à des technologies intelligentes avec des chatbots sur mesure, des systèmes avancés et des solutions qui apportent des résultats concrets",
+				"Nous transformons vos données en avantage compétitif grâce à l'IA de pointe. Spécialistes des LLMs et systèmes intelligents, nous concrétisons vos projets les plus ambitieux",
 			getStarted: "Commencer",
 			learnMore: "En savoir plus",
 		},
@@ -219,20 +220,20 @@ export const messages = {
 				],
 			},
 			llm: {
-				title: "Solutions LLM",
+				title: "Solutions LLM Entreprise",
 				description:
-					"Implémentations de modèles de langage adaptées qui résolvent vos défis commerciaux spécifiques",
+					"Implémentations personnalisées de modèles de langage exploitant GPT-4, Claude et LLaMA pour répondre à vos défis métier",
 				details: [
-					"Ajustement personnalisé des modèles",
-					"Formation spécifique au domaine",
-					"Optimisation des performances",
-					"Intégration avec les systèmes existants",
+					"Fine-tuning adapté à votre secteur",
+					"Optimisation des coûts d'inférence et de latence",
+					"Intégration sécurisée en entreprise",
+					"Surveillance continue des performances",
 				],
 				benefits: [
-					"Précision améliorée pour des cas d'utilisation spécifiques",
-					"Meilleure gestion de la terminologie spécifique à l'industrie",
-					"Réduction des coûts de calcul",
-					"Performance améliorée des modèles",
+					"Réduction de 40-60% des coûts opérationnels",
+					"Automatisation du traitement documentaire complexe",
+					"Mise sur le marché accélérée",
+					"Traitement des données conforme au RGPD",
 				],
 			},
 			agents: {
