@@ -5,8 +5,8 @@ import { Bot } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
 const api_url: string = import.meta.env.PROD
-	? "https://ignition-bot.onrender.com/search"
-	: ("/api/search" as const);
+	? "https://rust-chatbot-service.onrender.com/chat"
+	: ("/api/chat" as const);
 
 interface Message {
 	text: string;
