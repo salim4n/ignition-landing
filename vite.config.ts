@@ -3,17 +3,17 @@ import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
-  optimizeDeps: {
-    exclude: ['lucide-react'],
-  },
-  server: {
-    proxy: {
-      '/api': {
-        target: 'https://ignition-bot.onrender.com',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
-      }
-    }
-  }
+	plugins: [react()],
+	optimizeDeps: {
+		exclude: ["lucide-react"],
+	},
+	server: {
+		proxy: {
+			"/api": {
+				target: "https://rust-chatbot-service.onrender.com",
+				changeOrigin: true,
+				rewrite: (path) => path.replace(/^\/api/, ""),
+			},
+		},
+	},
 });

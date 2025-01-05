@@ -4,9 +4,10 @@ import logo from "../../assets/ignition_flame.gif";
 import { Bot } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
+console.log("prod ? ", import.meta.env.PROD);
 const api_url: string = import.meta.env.PROD
-	? "https://ignition-bot.onrender.com/search"
-	: ("/api/search" as const);
+	? "https://rust-chatbot-service.onrender.com/chat"
+	: ("/api/chat" as const);
 
 interface Message {
 	text: string;
@@ -33,15 +34,16 @@ const ChatButton = () => {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
-					"Origin": "https://ignitionai.fr"
+					Origin: "https://ignitionai.fr",
 				},
 				mode: "cors",
 				credentials: "omit",
 				body: JSON.stringify({
-					query: inputMessage,
-					k: 5,
+					message: inputMessage,
 				}),
 			});
+
+			console.log(response);
 
 			if (!response.ok) {
 				throw new Error("Network response was not ok");
@@ -128,7 +130,10 @@ const ChatButton = () => {
 															<ul className="list-disc ml-4 mb-2" {...props} />
 														),
 														ol: ({ node, ...props }) => (
-															<ol className="list-decimal ml-4 mb-2" {...props} />
+															<ol
+																className="list-decimal ml-4 mb-2"
+																{...props}
+															/>
 														),
 														li: ({ node, ...props }) => (
 															<li className="mb-1" {...props} />
