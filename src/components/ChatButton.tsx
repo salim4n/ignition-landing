@@ -3,65 +3,128 @@ import { MessageCircle, X, Maximize2, Minimize2 } from "lucide-react";
 import logo from "../../assets/ignition_flame.gif";
 import { Bot } from "lucide-react";
 import ReactMarkdown from "react-markdown";
-
-console.log("prod ? ", import.meta.env.PROD);
-const api_url: string = import.meta.env.PROD
-	? "https://rust-chatbot-service.onrender.com/chat"
-	: ("/api/chat" as const);
+import { HfInference } from "@huggingface/inference";
+import useRagStore from "../store/ragStore";
+import useSentenceEncoder from "../hook/useSentenceEncoder";
 
 interface Message {
 	text: string;
 	isBot: boolean;
+	thinking?: string;
 }
 
-const ChatButton = () => {
+const hf_token = import.meta.env.VITE_HF_API_KEY;
+
+if (!hf_token) {
+	console.error("HuggingFace API key not found in environment variables");
+}
+
+const ChatButton = ({ locale }: { locale: string }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isExpanded, setIsExpanded] = useState(false);
-	const [messages, setMessages] = useState<Message[]>([]);
+	const [messagesBot, setMessagesBot] = useState<Message[]>([]);
 	const [inputMessage, setInputMessage] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
+	const vectors = useRagStore().vectors;
+	const { embedText, findTopKSimilar, modelLoading } = useSentenceEncoder();
+
+	if (modelLoading) {
+		console.log("Model loading...");
+	}
+
+	const extractThinkingAndResponse = (text: string) => {
+		const thinkMatch = text.match(/<think>(.*?)<\/think>/s);
+		const thinking = thinkMatch ? thinkMatch[1].trim() : "";
+		const response = text.replace(/<think>.*?<\/think>/s, "").trim();
+		return { thinking, response };
+	};
 
 	const handleSendMessage = async () => {
 		if (!inputMessage.trim()) return;
 
 		// Add user message
 		const userMessage: Message = { text: inputMessage, isBot: false };
-		setMessages((prev) => [...prev, userMessage]);
+		setMessagesBot((prev) => [...prev, userMessage]);
 		setIsLoading(true);
 
 		try {
-			const response = await fetch(api_url, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Origin: "https://ignitionai.fr",
-				},
-				mode: "cors",
-				credentials: "omit",
-				body: JSON.stringify({
-					message: inputMessage,
-				}),
-			});
+			const client = new HfInference(hf_token);
+			let accumulatedText = "";
+			const inputMessageEmbedding = await embedText(inputMessage);
+			const topDocs = await findTopKSimilar(inputMessage, vectors, 3);
+			const input = `Tu es l'assistant officiel d'IgnitionAI, une agence spécialisée en intelligence artificielle.
 
-			console.log(response);
+EXPERTISE:
+- Systèmes RAG pour l'enrichissement des LLMs avec des données propriétaires
+- Développement de systèmes multi-agents intelligents
+- Chatbots avancés avec compréhension contextuelle
+- Modèle de vision par ordinateur avancé pour la reconnaissance de texte et la reconnaissance d'objets
 
-			if (!response.ok) {
-				throw new Error("Network response was not ok");
+CONSIGNES:
+1. Base tes réponses principalement sur les documents fournis
+2. Reste factuel et technique quand nécessaire
+3. Pour les questions hors contexte, redirige vers le formulaire de contact
+4. Ne fais pas de promesses spécifiques sur les délais ou les coûts
+5. Si tu n'as pas l'information, suggère un appel de consultation sur ce lien : https://calendly.com/laimeche160
+6. Tu réponds à l'utilisateur dans la même langue que celui-ci
+
+INFORMATIONS DISPONIBLES:
+Tu peux diriger l'utilisateur vers des liens externes
+Voici les liens de redirections disponibles :
+- https://www.pretorian-system.com/ : Applications de video surveillance gratuite que nous avons construites
+- https://ignitionai-note.vercel.app/ : Notre documentation disponible pour tous
+Tu peux utiliser le tag <code> pour mettre du code.
+Langue: ${locale === "fr" ? "Français" : "English"}
+Repond dans la langue de l'utilisateur : ${
+				locale === "fr" ? "Français" : "English"
 			}
+Historique de conversation: ${messagesBot
+				.map((message) => message.text)
+				.join("\n")}
+Dernier message utilisateur: ${inputMessage}
+Message utilisateur embedding: ${inputMessageEmbedding}
 
-			const data = await response.json();
-			const botMessage: Message = { text: data.answer, isBot: true };
-			setMessages((prev) => [...prev, botMessage]);
+Base de connaissance affinée selon l'input utilisateur : ${topDocs}
+
+QUESTION: ${inputMessage}
+
+RÉPONSE:`;
+			for await (const chunk of client.chatCompletionStream({
+				model: "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+				messages: [{ role: "user", content: input }],
+				temperature: 0.5,
+				stream: true,
+			})) {
+				if (chunk.choices && chunk.choices.length > 0) {
+					const newContent = chunk.choices[0].delta.content || "";
+					accumulatedText += newContent;
+
+					const { thinking, response } =
+						extractThinkingAndResponse(accumulatedText);
+
+					setMessagesBot((prev) => {
+						const newMessages = [...prev];
+						newMessages[newMessages.length - 1] = {
+							text: response,
+							isBot: true,
+							thinking: thinking,
+						};
+						return newMessages;
+					});
+				}
+			}
 		} catch (error) {
 			console.error("Error:", error);
-			const errorMessage: Message = {
-				text: "Désolé, une erreur s'est produite. Veuillez réessayer plus tard.",
-				isBot: true,
-			};
-			setMessages((prev) => [...prev, errorMessage]);
+			// Ajouter un message d'erreur
+			setMessagesBot((prev) => [
+				...prev.slice(0, -1),
+				{
+					text: "Désolé, une erreur s'est produite. Veuillez réessayer.",
+					isBot: true,
+				},
+			]);
 		} finally {
 			setIsLoading(false);
-			setInputMessage("");
 		}
 	};
 
@@ -106,55 +169,66 @@ const ChatButton = () => {
 					<div className="flex flex-col h-[calc(100%-8rem)] overflow-hidden">
 						<div className="flex-1 overflow-y-auto p-4 space-y-4">
 							<div className="flex flex-col space-y-4">
-								{messages.map((message, index) => (
+								{messagesBot.map((message, index) => (
 									<div
 										key={index}
 										className={`flex items-start ${
 											message.isBot ? "" : "justify-end"
 										}`}>
 										{message.isBot && <Bot className="w-6 h-6 mr-2 mt-1" />}
-										<div
-											className={`rounded-lg p-2 max-w-[80%] ${
-												message.isBot
-													? "bg-blue-600 text-white"
-													: "bg-gray-700 text-white ml-2"
-											}`}>
-											{message.isBot ? (
-												<ReactMarkdown
-													className="prose prose-invert prose-sm max-w-none"
-													components={{
-														p: ({ node, ...props }) => (
-															<p className="mb-2 last:mb-0" {...props} />
-														),
-														ul: ({ node, ...props }) => (
-															<ul className="list-disc ml-4 mb-2" {...props} />
-														),
-														ol: ({ node, ...props }) => (
-															<ol
-																className="list-decimal ml-4 mb-2"
-																{...props}
-															/>
-														),
-														li: ({ node, ...props }) => (
-															<li className="mb-1" {...props} />
-														),
-													}}>
-													{message.text}
-												</ReactMarkdown>
-											) : (
-												message.text
+										<div className="flex flex-col max-w-[80%]">
+											{message.thinking && (
+												<div className="mb-2 bg-gray-800 rounded-lg p-2 text-sm text-gray-300 border-l-2 border-blue-500">
+													<div className="font-medium mb-1">Réflexion :</div>
+													<ReactMarkdown
+														className="prose prose-invert prose-sm max-w-none"
+														components={{
+															p: ({ node, ...props }) => (
+																<p className="mb-2 last:mb-0" {...props} />
+															),
+														}}>
+														{message.thinking}
+													</ReactMarkdown>
+												</div>
 											)}
+											<div
+												className={`rounded-lg p-2 ${
+													message.isBot
+														? "bg-blue-600 text-white"
+														: "bg-gray-700 text-white ml-2"
+												}`}>
+												{message.isBot ? (
+													<ReactMarkdown
+														className="prose prose-invert prose-sm max-w-none"
+														components={{
+															p: ({ node, ...props }) => (
+																<p className="mb-2 last:mb-0" {...props} />
+															),
+															ul: ({ node, ...props }) => (
+																<ul
+																	className="list-disc ml-4 mb-2"
+																	{...props}
+																/>
+															),
+															ol: ({ node, ...props }) => (
+																<ol
+																	className="list-decimal ml-4 mb-2"
+																	{...props}
+																/>
+															),
+															li: ({ node, ...props }) => (
+																<li className="mb-1" {...props} />
+															),
+														}}>
+														{message.text}
+													</ReactMarkdown>
+												) : (
+													message.text
+												)}
+											</div>
 										</div>
 									</div>
 								))}
-								{isLoading && (
-									<div className="flex items-center">
-										<Bot className="w-6 h-6 mr-2" />
-										<div className="bg-blue-600 text-white rounded-lg p-2">
-											En train de réflechir...
-										</div>
-									</div>
-								)}
 							</div>
 						</div>
 
