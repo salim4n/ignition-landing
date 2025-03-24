@@ -1,5 +1,4 @@
-import React from 'react';
-import { X, Flame } from 'lucide-react';
+import { X } from 'lucide-react';
 import logo from "../../assets/ignition_flame.gif";
 
 interface AboutModalProps {

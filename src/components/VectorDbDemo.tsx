@@ -1,6 +1,7 @@
-import { SetStateAction, useEffect, useRef, useState } from 'react';
+import {  useEffect, useRef, useState } from 'react';
 import * as use from '@tensorflow-models/universal-sentence-encoder';
 import * as tf from '@tensorflow/tfjs';
+import useRagStore from '../store/ragStore';
 
 interface VectorDbDemoProps {
   t: any
@@ -18,7 +19,7 @@ const VectorDbDemo = ({ t }: VectorDbDemoProps) => {
   const [inputText, setInputText] = useState('');
   const [results, setResults] = useState('');
   const [points, setPoints] = useState<Point[]>([]);
-  const vectorDatabase = useRef<number[][]>([]);
+  const { vectors, addVector, loading: ragLoading } = useRagStore();
   const textDatabase = useRef<string[]>([]);
   const vizRef = useRef<HTMLDivElement>(null);
 
@@ -112,15 +113,19 @@ const VectorDbDemo = ({ t }: VectorDbDemoProps) => {
     try {
       const vector = await textToVector(inputText);
       if (vector && vector.length > 0) {
-        console.log('Vector generated:', vector.length);
-        vectorDatabase.current.push(vector);
+        const newVector = {
+          id: Date.now().toString(),
+          category: 'demo',
+          timestamp: new Date().toISOString(),
+          vector: vector,
+          content: inputText
+        };
+        addVector(newVector);
         textDatabase.current.push(inputText);
         setInputText('');
-        console.log('Database size:', vectorDatabase.current.length);
-        updateVisualization(vectorDatabase.current);
+        updateVisualization(vectors.map(v => v.vector));
         setResults(`Added: "${inputText}"`);
       } else {
-        console.log('Invalid vector generated');
         setResults('Error: Could not generate vector for text');
       }
     } catch (error) {
@@ -139,9 +144,9 @@ const VectorDbDemo = ({ t }: VectorDbDemoProps) => {
       const searchVector = await textToVector(inputText);
       if (!searchVector) return;
 
-      const similarities = vectorDatabase.current.map((vector, index) => ({
-        text: textDatabase.current[index],
-        similarity: cosineSimilarity(searchVector, vector)
+      const similarities = vectors.map((vector) => ({
+        text: vector.content,
+        similarity: cosineSimilarity(searchVector, vector.vector)
       }));
 
       similarities.sort((a, b) => b.similarity - a.similarity);
@@ -150,11 +155,11 @@ const VectorDbDemo = ({ t }: VectorDbDemoProps) => {
         `${s.text} (similarity: ${(s.similarity * 100).toFixed(2)}%)`
       ).join('\n'));
 
-      const allVectors = [...vectorDatabase.current, searchVector];
+      const allVectors = [...vectors.map(v => v.vector), searchVector];
       updateVisualization(allVectors);
       
       setTimeout(() => {
-        updateVisualization(vectorDatabase.current);
+        updateVisualization(vectors.map(v => v.vector));
       }, 2000);
 
     } catch (error) {
@@ -162,6 +167,21 @@ const VectorDbDemo = ({ t }: VectorDbDemoProps) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const formatResults = (text: string) => {
+    return text.split('\n').map(line => {
+      if (line.includes('</think>')) {
+        return {
+          text: line.replace('</think>', '').trim(),
+          isThinking: true
+        };
+      }
+      return {
+        text: line,
+        isThinking: false
+      };
+    });
   };
 
   return (
@@ -185,14 +205,14 @@ const VectorDbDemo = ({ t }: VectorDbDemoProps) => {
             />
             <button
               onClick={addText}
-              disabled={loading}
+              disabled={loading || ragLoading}
               className="px-5 py-2.5 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {t.vectorDb.addText}
             </button>
             <button
               onClick={findSimilar}
-              disabled={loading}
+              disabled={loading || ragLoading}
               className="px-5 py-2.5 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {t.vectorDb.searchSimilar}
@@ -215,7 +235,7 @@ const VectorDbDemo = ({ t }: VectorDbDemoProps) => {
               title={point.text}
             />
           ))}
-          {loading && (
+          {(loading || ragLoading) && (
             <div className="absolute inset-0 flex items-center justify-center bg-gray-900/10">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
             </div>
@@ -223,8 +243,19 @@ const VectorDbDemo = ({ t }: VectorDbDemoProps) => {
         </div>
 
         <div className="overflow-auto max-h-96 rounded-md">
-          <pre className="whitespace-pre-wrap break-words text-sm p-4 bg-gray-50 rounded-md">
-            {results}
+          <pre className="whitespace-pre-wrap break-words text-sm p-4 bg-gray-50 dark:bg-gray-800 rounded-md">
+            {formatResults(results).map((line, index) => (
+              <div 
+                key={index} 
+                className={`${
+                  line.isThinking 
+                    ? 'text-purple-600 dark:text-purple-400 italic font-light'
+                    : 'text-gray-800 dark:text-gray-200'
+                }`}
+              >
+                {line.text}
+              </div>
+            ))}
           </pre>
         </div>
       </div>

@@ -96,8 +96,10 @@ RÉPONSE:`;
 				stream: true,
 			})) {
 				if (chunk.choices && chunk.choices.length > 0) {
+					console.log(chunk.choices[0].delta.content);
 					const newContent = chunk.choices[0].delta.content || "";
 					accumulatedText += newContent;
+
 
 					const { thinking, response } =
 						extractThinkingAndResponse(accumulatedText);

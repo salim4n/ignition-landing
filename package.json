@@ -19,6 +19,7 @@
     "react-dom": "^18.3.1",
     "react-markdown": "^9.0.1",
     "vite-react-typescript-starter": "file:",
+    "weave": "^0.7.5",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
