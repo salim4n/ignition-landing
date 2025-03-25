@@ -31,7 +31,6 @@ const VectorDbDemo = ({ t }: VectorDbDemoProps) => {
         console.log('tf backend:', tf.getBackend());
         const loadedModel = await use.load();
         setModel(loadedModel);
-        console.log('Model loaded');
         setLoading(false);
       } catch (error) {
         console.error('Error loading model:', error);
@@ -39,7 +38,7 @@ const VectorDbDemo = ({ t }: VectorDbDemoProps) => {
       }
     };
 
-    initModel();
+    initModel().then(() => console.log('Model loaded'));
 
     return () => {
       if (model) {
@@ -47,7 +46,7 @@ const VectorDbDemo = ({ t }: VectorDbDemoProps) => {
       }
       tf.dispose();
     };
-  }, []);
+  }, [model]);
 
   const textToVector = async (text: string) => {
     if (!model) return null;

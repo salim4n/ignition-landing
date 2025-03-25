@@ -3,9 +3,9 @@ import { MessageCircle, X, Maximize2, Minimize2 } from "lucide-react";
 import logo from "../../assets/ignition_flame.gif";
 import { Bot } from "lucide-react";
 import ReactMarkdown from "react-markdown";
-import { HfInference } from "@huggingface/inference";
 import useRagStore from "../store/ragStore";
 import useSentenceEncoder from "../hook/useSentenceEncoder";
+import OpenAI from 'openai';
 
 interface Message {
 	text: string;
@@ -13,11 +13,10 @@ interface Message {
 	thinking?: string;
 }
 
-const hf_token = import.meta.env.VITE_HF_API_KEY;
-
-if (!hf_token) {
-	console.error("HuggingFace API key not found in environment variables");
-}
+const openai = new OpenAI({
+	apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+	dangerouslyAllowBrowser: true
+});
 
 const ChatButton = ({ locale }: { locale: string }) => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -32,13 +31,6 @@ const ChatButton = ({ locale }: { locale: string }) => {
 		console.log("Model loading...");
 	}
 
-	const extractThinkingAndResponse = (text: string) => {
-		const thinkMatch = text.match(/<think>(.*?)<\/think>/s);
-		const thinking = thinkMatch ? thinkMatch[1].trim() : "";
-		const response = text.replace(/<think>.*?<\/think>/s, "").trim();
-		return { thinking, response };
-	};
-
 	const handleSendMessage = async () => {
 		if (!inputMessage.trim()) return;
 
@@ -48,8 +40,6 @@ const ChatButton = ({ locale }: { locale: string }) => {
 		setIsLoading(true);
 
 		try {
-			const client = new HfInference(hf_token);
-			let accumulatedText = "";
 			const inputMessageEmbedding = await embedText(inputMessage);
 			const topDocs = await findTopKSimilar(inputMessage, vectors, 3);
 			const input = `Tu es l'assistant officiel d'IgnitionAI, une agence spécialisée en intelligence artificielle.
@@ -75,12 +65,8 @@ Voici les liens de redirections disponibles :
 - https://ignitionai-note.vercel.app/ : Notre documentation disponible pour tous
 Tu peux utiliser le tag <code> pour mettre du code.
 Langue: ${locale === "fr" ? "Français" : "English"}
-Repond dans la langue de l'utilisateur : ${
-				locale === "fr" ? "Français" : "English"
-			}
-Historique de conversation: ${messagesBot
-				.map((message) => message.text)
-				.join("\n")}
+Repond dans la langue de l'utilisateur : ${locale === "fr" ? "Français" : "English"}
+Historique de conversation: ${messagesBot.map((message) => message.text).join("\n")}
 Dernier message utilisateur: ${inputMessage}
 Message utilisateur embedding: ${inputMessageEmbedding}
 
@@ -89,42 +75,41 @@ Base de connaissance affinée selon l'input utilisateur : ${topDocs}
 QUESTION: ${inputMessage}
 
 RÉPONSE:`;
-			for await (const chunk of client.chatCompletionStream({
-				model: "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
-				messages: [{ role: "user", content: input }],
-				temperature: 0.5,
-				stream: true,
-			})) {
-				if (chunk.choices && chunk.choices.length > 0) {
-					console.log(chunk.choices[0].delta.content);
-					const newContent = chunk.choices[0].delta.content || "";
-					accumulatedText += newContent;
 
+			const response = await openai.chat.completions.create({
+				model: 'gpt-4o-mini',
+				messages: [
+					{
+						role: 'system',
+						content: 'Vous êtes un assistant de chatbot qui répond à des questions sur l\'entreprise IgnitionAI'
+					},
+					{
+						role: 'user',
+						content: input
+					}
+				],
+			});
 
-					const { thinking, response } =
-						extractThinkingAndResponse(accumulatedText);
-
-					setMessagesBot((prev) => {
-						const newMessages = [...prev];
-						newMessages[newMessages.length - 1] = {
-							text: response,
-							isBot: true,
-							thinking: thinking,
-						};
-						return newMessages;
-					});
-				}
-			}
+			const botResponse = response.choices[0].message.content || 'Désolé, je ne peux pas répondre pour le moment.';
+			
+			setMessagesBot((prev) => {
+				const newMessages = [...prev];
+				newMessages[newMessages.length - 1] = {
+					text: botResponse,
+					isBot: true,
+				};
+				return newMessages;
+			});
 		} catch (error) {
 			console.error("Error:", error);
-			// Ajouter un message d'erreur
-			setMessagesBot((prev) => [
-				...prev.slice(0, -1),
-				{
-					text: "Désolé, une erreur s'est produite. Veuillez réessayer.",
+			setMessagesBot((prev) => {
+				const newMessages = [...prev];
+				newMessages[newMessages.length - 1] = {
+					text: "Désolé, une erreur est survenue. Veuillez réessayer.",
 					isBot: true,
-				},
-			]);
+				};
+				return newMessages;
+			});
 		} finally {
 			setIsLoading(false);
 		}
