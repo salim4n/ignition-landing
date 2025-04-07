@@ -40,12 +40,7 @@ const VectorDbDemo = ({ t }: VectorDbDemoProps) => {
 
     initModel().then(() => console.log('Model loaded'));
 
-    return () => {
-      if (model) {
-        model.dispose();
-      }
-      tf.dispose();
-    };
+
   }, [model]);
 
   const textToVector = async (text: string) => {

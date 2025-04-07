@@ -256,14 +256,14 @@ function App() {
 					isOpen={true}
 					onClose={() => setSelectedService(null)}
 					service={{
-						title: t.services[selectedService as keyof typeof t.services].title,
+						title: t.services[selectedService as keyof typeof t.services]?.title || "",
 						description:
 							t.services[selectedService as keyof typeof t.services]
-								?.description,
+								?.description || "",
 						details:
-							t.services[selectedService as keyof typeof t.services]?.details,
+							t.services[selectedService as keyof typeof t.services]?.details || [],
 						benefits:
-							t.services[selectedService as keyof typeof t.services]?.benefits,
+							t.services[selectedService as keyof typeof t.services]?.benefits || [],
 					}}
 				/>
 			)}
