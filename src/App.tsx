@@ -7,6 +7,9 @@ import {
 	Database,
 	Shield,
 	Network,
+	Github,
+	Linkedin,
+	BookOpen,
 } from "lucide-react";
 import { messages } from "./i18n/messages";
 import Navbar from "./components/Navbar";
@@ -170,7 +173,7 @@ function App() {
 			</section>
 
 			{/* Footer */}
-			<footer id="footer" className="bg-gray-900 text-gray-400 py-12 px-4">
+			<footer id="footer" className="bg-gray-900 text-gray-400 py-12 px-4 pb-32">
 				<div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-8">
 					<div>
 						<div className="flex items-center space-x-2 mb-4">
@@ -220,11 +223,22 @@ function App() {
 						<ul className="space-y-2">
 							<li>
 								<a
+									href="https://www.github.com/IgnitionAI"
+									target="_blank"
+									rel="noopener noreferrer"
+									className="hover:text-blue-400 transition-colors flex items-center gap-2">
+									<Github size={20} />
+									<span>GitHub</span>
+								</a>
+							</li>
+							<li>
+								<a
 									href="https://www.linkedin.com/company/ignitionai"
 									target="_blank"
 									rel="noopener noreferrer"
-									className="hover:text-blue-400 transition-colors">
-									LinkedIn
+									className="hover:text-blue-400 transition-colors flex items-center gap-2">
+									<Linkedin size={20} />
+									<span>LinkedIn</span>
 								</a>
 							</li>
 							<li>
@@ -232,23 +246,50 @@ function App() {
 									href="https://ignitionai-note.vercel.app/"
 									target="_blank"
 									rel="noopener noreferrer"
-									className="hover:text-blue-400 transition-colors">
-									Blog
+									className="hover:text-blue-400 transition-colors flex items-center gap-2">
+									<BookOpen size={20} />
+									<span>Blog</span>
 								</a>
 							</li>
+						</ul>
+					</div>
+					<div>
+						<h4 className="text-white font-semibold mb-4">
+							Nos Produits
+						</h4>
+						<ul className="space-y-2">
 							<li>
 								<a
 									href="https://www.pretorian-system.com/"
 									target="_blank"
 									rel="noopener noreferrer"
-									className="hover:text-blue-400 transition-colors">
-									Pretorian System
+									className="hover:text-blue-400 transition-colors flex items-center gap-2">
+									<Shield size={20} />
+									<span>Pretorian System - SaaS gratuit</span>
 								</a>
 							</li>
 						</ul>
 					</div>
 				</div>
 			</footer>
+
+			{/* Fixed buttons container */}
+			<div className="fixed bottom-0 left-0 right-0 h-32">
+				<div className="absolute bottom-4 right-4">
+					{(!loading && <ChatButton locale={locale} />) || (
+						<button>
+							<img src={logo} alt="ignition-flame" className="h-12 w-12" />
+						</button>
+					)}
+				</div>
+				<div className="absolute bottom-4 left-4">
+					{(!loading && <VectorDbButton locale={locale} />) || (
+						<button>
+							<img src={logo} alt="ignition-flame" className="h-12 w-12" />
+						</button>
+					)}
+				</div>
+			</div>
 
 			{/* Service Modal */}
 			{selectedService && (
@@ -268,16 +309,6 @@ function App() {
 				/>
 			)}
 
-			{(!loading && <ChatButton locale={locale} />) || (
-				<button className="fixed bottom-4 right-4 z-50">
-					<img src={logo} alt="ignition-flame" className="h-12 w-12" />
-				</button>
-			)}
-			{(!loading && <VectorDbButton locale={locale} />) || (
-				<button className="fixed bottom-4 left-4 z-50">
-					<img src={logo} alt="ignition-flame" className="h-12 w-12" />
-				</button>
-			)}
 			{showVectorDbModal && (
 				<VectorDbModal
 					onClose={() => setShowVectorDbModal(false)}
