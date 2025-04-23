@@ -28,7 +28,7 @@ export function useOpenAI() {
       setInput('');
 
       const response = await openai.chat.completions.create({
-        model: 'gpt-3.5-turbo',
+        model: 'GPT-4.1 nano',
         messages: [...messages, userMessage],
       });
 
