@@ -4,7 +4,7 @@ import logo from "../../assets/ignition_flame.gif";
 import { Bot } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import useRagStore from "../store/ragStore";
-import useSentenceEncoder from "../hook/useSentenceEncoder";
+import useSentenceEncoder from "../hooks/useSentenceEncoder";
 import OpenAI from 'openai';
 
 interface Message {
@@ -25,11 +25,7 @@ const ChatButton = ({ locale }: { locale: string }) => {
 	const [inputMessage, setInputMessage] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const vectors = useRagStore().vectors;
-	const { embedText, findTopKSimilar, modelLoading } = useSentenceEncoder();
-
-	if (modelLoading) {
-		console.log("Model loading...");
-	}
+	const { embedText, findTopKSimilar } = useSentenceEncoder();
 
 	const handleSendMessage = async () => {
 		if (!inputMessage.trim()) return;
@@ -170,7 +166,7 @@ RÉPONSE:`;
 													<ReactMarkdown
 														className="prose prose-invert prose-sm max-w-none"
 														components={{
-															p: ({ node, ...props }) => (
+															p: ({ ...props }) => (
 																<p className="mb-2 last:mb-0" {...props} />
 															),
 														}}>
@@ -188,22 +184,22 @@ RÉPONSE:`;
 													<ReactMarkdown
 														className="prose prose-invert prose-sm max-w-none"
 														components={{
-															p: ({ node, ...props }) => (
+															p: ({ ...props }) => (
 																<p className="mb-2 last:mb-0" {...props} />
 															),
-															ul: ({ node, ...props }) => (
+															ul: ({ ...props }) => (
 																<ul
 																	className="list-disc ml-4 mb-2"
 																	{...props}
 																/>
 															),
-															ol: ({ node, ...props }) => (
+															ol: ({ ...props }) => (
 																<ol
 																	className="list-decimal ml-4 mb-2"
 																	{...props}
 																/>
 															),
-															li: ({ node, ...props }) => (
+															li: ({ ...props }) => (
 																<li className="mb-1" {...props} />
 															),
 														}}>
